@@ -5,7 +5,7 @@ import os
 import random
 import calendar
 import io
-#import base64
+import base64
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont
 import openpyxl
@@ -307,16 +307,16 @@ class LoteriaApp:
         pil_image.save(buffer, format="PNG")
         buffer.seek(0)
         img_bytes = buffer.read()
-        #base64_string = base64.b64encode(img_bytes).decode("utf-8")
+        base64_string = base64.b64encode(img_bytes).decode("utf-8")
         
-        #data_uri = f"data:image/png;base64,{base64_string}"
+        data_uri = f"data:image/png;base64,{base64_string}"
         
         # ZOOM: InteractiveViewer
         viewer = ft.InteractiveViewer(
             min_scale=0.5,
             max_scale=5.0,
             content=ft.Image(
-                src=img_bytes,
+                src=data_uri,
                 width=2000,
                 fit="contain"
             )
