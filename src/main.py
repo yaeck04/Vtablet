@@ -5,7 +5,7 @@ import os
 import random
 import calendar
 import io
-#import base64
+import base64
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont
 import openpyxl
