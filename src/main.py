@@ -1,53 +1,39 @@
+
 import flet as ft
+import json
+import os
+import random
+import calendar
+import io
+#import base64
+from datetime import datetime, timedelta
+from PIL import Image, ImageDraw, ImageFont
+import openpyxl
+from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
+
 
 
 def main(page: ft.Page):
-    async def handle_pick_files(e: ft.Event[ft.Button]):
-        files = await ft.FilePicker().pick_files(allow_multiple=True)
-        selected_files.value = (
-            ", ".join(map(lambda f: f.name, files)) if files else "Cancelled!"
-        )
+    page.title = "Flet counter example"
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
-    async def handle_save_file(e: ft.Event[ft.Button]):
-        save_file_path.value = await ft.FilePicker().save_file()
+    input = ft.TextField(value="0", text_align=ft.TextAlign.RIGHT, width=100)
 
-    async def handle_get_directory_path(e: ft.Event[ft.Button]):
-        directory_path.value = await ft.FilePicker().get_directory_path()
+    def minus_click(e):
+        input.value = str(int(input.value) - 1)
+
+    def plus_click(e):
+        input.value = str(int(input.value) + 1)
 
     page.add(
         ft.Row(
+            alignment=ft.MainAxisAlignment.CENTER,
             controls=[
-                ft.Button(
-                    content="Pick files",
-                    icon=ft.Icons.UPLOAD_FILE,
-                    on_click=handle_pick_files,
-                ),
-                selected_files := ft.Text(),
-            ]
-        ),
-        ft.Row(
-            controls=[
-                ft.Button(
-                    content="Save file",
-                    icon=ft.Icons.SAVE,
-                    on_click=handle_save_file,
-                    disabled=page.web,  # disable this button in web mode
-                ),
-                save_file_path := ft.Text(),
-            ]
-        ),
-        ft.Row(
-            controls=[
-                ft.Button(
-                    content="Open directory",
-                    icon=ft.Icons.FOLDER_OPEN,
-                    on_click=handle_get_directory_path,
-                    disabled=page.web,  # disable this button in web mode
-                ),
-                directory_path := ft.Text(),
-            ]
-        ),
+                ft.IconButton(ft.Icons.REMOVE, on_click=minus_click),
+                input,
+                ft.IconButton(ft.Icons.ADD, on_click=plus_click),
+            ],
+        )
     )
-
 
 ft.run(main)
